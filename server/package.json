@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Server app",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon .",
+    "start": "tsc && node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Elad Hamneshin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
