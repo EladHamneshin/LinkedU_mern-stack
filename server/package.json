@@ -6,16 +6,25 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon .",
-    "start": "tsc && node .",
+    "build": "tsc",
+    "start": "node .",
+    "bs": "tsc && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Elad Hamneshin",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
     "nodemon": "^3.0.1"
   }
 }
