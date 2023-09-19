@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-// import bcrypt from 'bcrypt';
+import User from '../types/User.js';
+
 
 
 const userSchema = new mongoose.Schema<User>(
@@ -41,6 +42,6 @@ const userSchema = new mongoose.Schema<User>(
 //   this.password = await bcrypt.hash(this.password, salt);
 // });
 
-const User = mongoose.model('User', userSchema);
+const UserModel = mongoose.model('User', userSchema);
 
-export default User;
+export default UserModel;

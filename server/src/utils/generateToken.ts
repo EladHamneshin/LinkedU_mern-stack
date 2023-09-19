@@ -1,7 +1,8 @@
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { Types } from 'mongoose';
 
-const generateToken = (res: Response, userId: string) => {
+const generateToken = (res: Response, userId: Types.ObjectId) => {
     if(!process.env.JWT_SECRET) throw new Error('JWT_SECRET not defined');
     
     const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
