@@ -4,9 +4,7 @@ import RequestError from '../utils/RequestError.js';
 import STATUS_CODES from '../utils/StatusCodes.js';
 import {comparePassword, hashPassword } from '../utils/encryptPassword.js';
 
-
-
-export const addUser = async (user: User) => {
+const addUser = async (user: User) => {
     const { name, email, password } = user;
     const userExists = await UserModel.findOne({ email });
 
@@ -25,7 +23,7 @@ export const addUser = async (user: User) => {
     return newUser;
 }
 
-export const authUser = async (email: string, password: string) => {
+const authUser = async (email: string, password: string) => {
     const user = await getUserByEmail(email);
 
     if(!user)
@@ -39,3 +37,5 @@ export const authUser = async (email: string, password: string) => {
 const getUserByEmail = async (userEmail: string) => {
     return await UserModel.findOne({ email: userEmail });
 }
+
+export {addUser, authUser}
