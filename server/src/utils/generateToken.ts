@@ -3,8 +3,11 @@ import jwt from 'jsonwebtoken';
 import { Types } from 'mongoose';
 
 const generateToken = (res: Response, userId: Types.ObjectId) => {
-    if(!process.env.JWT_SECRET) throw new Error('JWT_SECRET not defined');
-    
+    if(!process.env.JWT_SECRET) {
+        console.error('JWT_SECRET not defined');
+        process.exit(1);
+    }
+
     const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
     expiresIn: '30d',
     });

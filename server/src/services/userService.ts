@@ -3,6 +3,7 @@ import UserModel from '../models/userModel.js';
 import RequestError from '../utils/RequestError.js';
 import STATUS_CODES from '../utils/StatusCodes.js';
 import {comparePassword, hashPassword } from '../utils/encryptPassword.js';
+import { Types } from 'mongoose';
 
 const addUser = async (user: User) => {
     const { name, email, password } = user;
@@ -34,8 +35,15 @@ const authUser = async (email: string, password: string) => {
     return user;
 }
 
+const getUserById = async (userId: Types.ObjectId) => {
+    const user = await UserModel.findById(userId);
+    if(!user)
+        throw new RequestError('User not found', STATUS_CODES.NOT_FOUND);
+    return user;
+}
+
 const getUserByEmail = async (userEmail: string) => {
     return await UserModel.findOne({ email: userEmail });
 }
 
-export {addUser, authUser}
+export {addUser, authUser, getUserById}

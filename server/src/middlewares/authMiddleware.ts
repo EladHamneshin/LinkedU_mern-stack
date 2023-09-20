@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import UserModel from '../models/userModel.js';
 import STATUS_CODES from '../utils/StatusCodes.js';
 
-const protect = asyncHandler( async (req, res, next) => {
+const authHandler = asyncHandler( async (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (!token) {
@@ -18,7 +18,7 @@ const protect = asyncHandler( async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await UserModel.findById((decoded as JwtPayload).userId).select('-password');
+    req.userId = (decoded as JwtPayload).userId;
     next();
   } catch (error) {
     console.error(error);
@@ -28,4 +28,4 @@ const protect = asyncHandler( async (req, res, next) => {
   
 });
 
-export { protect };
+export { authHandler };
