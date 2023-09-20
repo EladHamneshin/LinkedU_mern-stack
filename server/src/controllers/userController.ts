@@ -2,6 +2,11 @@ import asyncHandler from 'express-async-handler';
 import { Request, Response } from 'express';
 import STATUS_CODES from '../utils/StatusCodes.js';
 import * as service from '../services/userService.js';
+import generateToken from '../utils/generateToken.js';
+
+
+
+
 
 
 // @desc    Register a new user
@@ -12,14 +17,14 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 
     const user = await service.addUser({ name, email, password });
 
+    generateToken(res, user._id);
+
     res.status(STATUS_CODES.CREATED).json({
         _id: user._id,
         name: user.name,
         email: user.email,
     });
-
 });
-
 
 export {
   registerUser,
