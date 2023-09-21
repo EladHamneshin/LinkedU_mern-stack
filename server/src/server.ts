@@ -6,19 +6,7 @@ import connectDB from './configs/db.js';
 import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
-import User from './types/User.js';
-import { Types } from 'mongoose';
 dotenv.config();
-
-// Augment the Express Request type with a user property
-declare global {
-  namespace Express {
-    interface Request {
-      userId:  Types.ObjectId;
-    }
-  }
-}
-
 
 const port = process.env.PORT || 5000;
 

@@ -24,8 +24,7 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
-  const user = await service.addUser({ name, email, password });
+  const user = await service.addUser(req.body);
 
   res.status(STATUS_CODES.CREATED).json({
     _id: user._id,
@@ -59,4 +58,18 @@ const getUserProfile = asyncHandler(async (req, res) => {
   });
 });
 
-export { registerUser, authUser, logoutUser, getUserProfile };
+// @desc    Update user profile
+// @route   PUT /api/users/profile
+// @access  Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const updatedUser = await service.updatedUser(req.userId, req.body);;
+
+  res.json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email
+  });
+ 
+});
+
+export { registerUser, authUser, logoutUser, getUserProfile, updateUserProfile };
