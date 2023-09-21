@@ -1,6 +1,6 @@
 # MERN Stack Project
 
-<img src="https://tinyurl.com/82zs82f2" />
+<img src="../libs/imgs/mern.png" />
 
 It includes the following:
 
