@@ -3,11 +3,19 @@ import STATUS_CODES from "../utils/StatusCodes.js";
 import * as service from "../services/userService.js";
 import generateToken from "../utils/generateToken.js";
 import { Request, Response } from "express";
+import RequestError from "../utils/RequestError.js";
+import userValidation from "../utils/validations/userValidation.js";
+import authValidation from "../utils/validations/authValidations.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
 // @access  Public
 const authUser = asyncHandler(async (req: Request, res: Response) => {
+
+  const { error } = authValidation(req.body);
+  if (error?.details[0].message) 
+    throw new RequestError(error?.details[0].message, STATUS_CODES.BAD_REQUEST);
+
   const { email, password } = req.body;
   const user = await service.authUser(email, password);
 
@@ -24,6 +32,11 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
+
+  const { error } = userValidation(req.body);
+  if (error?.details[0].message) 
+    throw new RequestError(error?.details[0].message, STATUS_CODES.BAD_REQUEST);
+
   const user = await service.addUser(req.body);
 
   res.status(STATUS_CODES.CREATED).json({
