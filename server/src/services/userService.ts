@@ -2,7 +2,7 @@ import User from '../types/User.js';
 import UserModel from '../models/userModel.js';
 import RequestError from '../utils/RequestError.js';
 import STATUS_CODES from '../utils/StatusCodes.js';
-import {comparePassword, hashPassword } from '../utils/encryptPassword.js';
+import { hashPassword } from '../utils/encryptPassword.js';
 import { Types } from 'mongoose';
 
 const addUser = async (user: User) => {
@@ -24,18 +24,8 @@ const addUser = async (user: User) => {
 	return newUser;
 }
 
-const authUser = async (email: string, password: string) => {
-	const user = await getUserByEmail(email);
 
-	if(!user)
-		throw new RequestError('Invalid email', STATUS_CODES.UNAUTHORIZED);
-	
-	if(!await comparePassword(password, user.password))
-		throw new RequestError('Invalid password', STATUS_CODES.UNAUTHORIZED);
-	return user;
-}
-
-const getUserById = async (userId: Types.ObjectId) => {
+const getUser = async (userId: Types.ObjectId) => {
 	const user = await UserModel.findById(userId);
 	if(!user)
 		throw new RequestError('User not found', STATUS_CODES.NOT_FOUND);
@@ -57,8 +47,5 @@ const updatedUser = async (id: Types.ObjectId , userDetails: Partial<User>) => {
 	return await userToUpdate.save();
 }
 
-const getUserByEmail = async (userEmail: string) => {
-	return await UserModel.findOne({ email: userEmail });
-}
 
-export {addUser, authUser, getUserById, updatedUser}
+export {addUser, getUser, updatedUser}

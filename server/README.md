@@ -39,7 +39,7 @@ npm install
 ### Run
 
 ```
-# Run backend (:5000)
+# Run backend
 npm run bs
 ```
 
