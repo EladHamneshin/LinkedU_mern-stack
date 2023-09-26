@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
-import * as userService from "./userService.js";
+import * as userService from "../services/userService.js";
 import { Types } from "mongoose";
 import {connectDB, disconnectDB} from "../configs/db.js";
 import dotenv from 'dotenv';
