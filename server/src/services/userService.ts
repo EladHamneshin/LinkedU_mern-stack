@@ -10,7 +10,7 @@ const addUser = async (user: User) => {
 	const userExists = await UserModel.findOne({ email });
 
 	if (userExists) 
-		throw new RequestError('User already exists', STATUS_CODES.BAD_REQUEST);
+		throw new RequestError('Email already exists', STATUS_CODES.BAD_REQUEST);
 
 	const hashedPassword = await hashPassword(password);
 	const newUser = await UserModel.create({
@@ -19,8 +19,6 @@ const addUser = async (user: User) => {
 		password: hashedPassword
 	});
 
-	if (!newUser) 
-		throw new RequestError('Invalid user data', STATUS_CODES.BAD_REQUEST);
 	return newUser;
 }
 
@@ -47,5 +45,12 @@ const updatedUser = async (id: Types.ObjectId , userDetails: Partial<User>) => {
 	return await userToUpdate.save();
 }
 
+const deleteUser = async (id: Types.ObjectId) => {
+	const res = UserModel.findByIdAndDelete(id);
+	if(!res)
+		throw new RequestError('User not found', STATUS_CODES.NOT_FOUND);
+	return res;
+}
 
-export {addUser, getUser, updatedUser}
+
+export {addUser, getUser, updatedUser, deleteUser}

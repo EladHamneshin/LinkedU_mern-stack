@@ -2,7 +2,7 @@ import path from 'path';
 import morgan from 'morgan';
 import express from 'express';
 import dotenv from 'dotenv';
-import connectDB from './configs/db.js';
+import {connectDB} from './configs/db.js';
 import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
