@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 
 connectDB();
 
-const app = express();
+export const app = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
