@@ -9,7 +9,7 @@
     "build": "tsc",
     "start": "node .",
     "bs": "tsc && node .",
-    "test": "cross-env NODE_ENV=test vitest run --testTimeout=5000 ./__tests__"
+    "test": "cross-env NODE_ENV=test vitest --silent --single-thread --testTimeout=5000 --run ./__tests__"
   },
   "keywords": [],
   "author": "Elad Hamneshin",

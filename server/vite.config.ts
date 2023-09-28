@@ -5,6 +5,6 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
     test: {
         globals: true,
-        setupFiles: "./src/configs/dbTest.ts",
+        setupFiles: "./src/__tests__/setupTest.ts",
     },
 });
