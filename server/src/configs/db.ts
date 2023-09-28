@@ -19,7 +19,7 @@ const connectDB = async () => {
       break;
     case "development":
       console.log("Connecting to MongoDB Atlas");
-      dbUri = process.env.MONGO_URI;
+      dbUri = process.env.ATLAS_URI;
       break;
     case "test":
       console.log("Connecting to MongoDB Memory Server");

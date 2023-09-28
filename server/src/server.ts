@@ -1,8 +1,10 @@
 //import path from 'path';
+import fs from 'fs';
+import https from 'https';
 import morgan from 'morgan';
 import express from 'express';
 import dotenv from 'dotenv';
-import {connectDB, disconnectDB} from './configs/db.js';
+import { connectDB } from './configs/db.js';
 import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
@@ -36,4 +38,12 @@ app.use('/api/users', userRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+https.createServer(
+    {
+        key: fs.readFileSync("./src/assets/key.pem"),
+        cert: fs.readFileSync("./src/assets/cert.pem"),
+    },
+    app)
+    .listen(port, () => {
+        console.log(`serever is runing at port ${port}`);
+    });
