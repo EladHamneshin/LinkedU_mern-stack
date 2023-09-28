@@ -13,6 +13,9 @@ It includes the following:
 - React frontend to register, login, logout, view profile, and update profile
 
 
+## End points
+
+
 ## Usage
 
 - Create a MongoDB database and obtain your `MongoDB URI` - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
