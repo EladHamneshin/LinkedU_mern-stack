@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
-// dedicated memory server for testing
-let mongoMemoryServer: MongoMemoryServer;
-
 const connectDB = async () => { 
   let dbUri = '';
 
@@ -14,7 +11,7 @@ const connectDB = async () => {
 
   switch (process.env.NODE_ENV) {
     case "production":
-      console.log("Connecting to MongoDB Atlas");
+      console.log("Connecting to MongoDB Local Server");
       dbUri = process.env.MONGO_URI;
       break;
     case "development":
@@ -23,6 +20,7 @@ const connectDB = async () => {
       break;
     case "test":
       console.log("Connecting to MongoDB Memory Server");
+      let mongoMemoryServer: MongoMemoryServer;
       mongoMemoryServer = await MongoMemoryServer.create();
       dbUri = mongoMemoryServer.getUri();
       break;
@@ -43,20 +41,4 @@ const connectDB = async () => {
   }
 };
 
-const disconnectDB = async () => {
-  try {
-    await mongoose.disconnect();
-    console.log("MongoDB Disconnected");
-
-    if(mongoMemoryServer) 
-      await mongoMemoryServer.stop({ doCleanup: true });
-    
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Error: ${error.message}`);
-      process.exit(1);
-    }
-  }
-}
-
-export {connectDB, disconnectDB};
+export {connectDB,};
