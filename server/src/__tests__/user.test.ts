@@ -113,8 +113,5 @@ describe('app rest api test',async () => {
                 .set('Cookie', 'jwt=invalid').expect(STATUS_CODES.UNAUTHORIZED);
             });
         });
-
     });
-  
 });
-

@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
-      "composite": true,
-      "allowSyntheticDefaultImports": true
+      "composite": true
     },
     "include": ["vite.config.ts"]
 }
