@@ -1,12 +1,9 @@
 import request from 'supertest';
 import { app } from '../server.js';
-// import { afterAll, beforeAll, describe, it } from 'vitest';
 import STATUS_CODES from '../utils/StatusCodes.js';
 
-
-
 const login =async () => {
-    let response = await request(app).post('/api/users/auth').send({
+    let response = await request(app).post('/api/users/auth/login').send({
         email: 'test1@test.com',
         password: 'Test#!123'
     }).expect(STATUS_CODES.OK).expect('set-cookie', /jwt/);
@@ -15,7 +12,7 @@ const login =async () => {
 }
 
 const logout = async (token: string) => {
-    await request(app).post('/api/users/logout').set('Cookie', `jwt=${token}`).expect(STATUS_CODES.OK);
+    await request(app).post('/api/users/auth/logout').set('Cookie', `jwt=${token}`).expect(STATUS_CODES.OK);
 }
 
 describe('app rest api test',async () => {
@@ -56,21 +53,21 @@ describe('app rest api test',async () => {
     });
 
     // Login tests
-    describe('POST /api/users/auth', () => {
+    describe('POST /api/users/auth/login', () => {
         it('Login with an existing user', async () => {
             const token = await login();
-            await request(app).post('/api/users/logout').set('Cookie', `jwt=${token}`).expect(STATUS_CODES.OK);
+            await logout(token);
         });
 
         it('Login with a non-existing user', async () => {
-            await request(app).post('/api/users/auth').send({
+            await request(app).post('/api/users/auth/login').send({
                 email: 'test5@test.com',
                 password: 'Test#!123'
             }).expect(STATUS_CODES.UNAUTHORIZED);
         });
     });
 
-    describe('POST /api/users/logout', () => {
+    describe('POST /api/users/auth/logout', () => {
         it('Logout with a valid token', async () => {
             const token = await login();
             await logout(token);

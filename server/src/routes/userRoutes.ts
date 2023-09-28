@@ -8,10 +8,8 @@ const router = express.Router();
 router.use("/auth", authRoutes);
 
 router.post("/", userController.registerUser);
-router.post("/logout", userController.logoutUser);
-router
-  .route("/profile")
-  .get(authHandler, userController.getUserProfile)
-  .put(authHandler, userController.updateUserProfile);
+router.route("/profile")
+      .get(authHandler, userController.getUserProfile)
+      .put(authHandler, userController.updateUserProfile);
 
 export default router;

@@ -24,17 +24,6 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-// @desc    Logout user / clear cookie
-// @route   POST /api/users/logout
-// @access  Public
-const logoutUser = (req: Request, res: Response) => {
-  res.cookie('jwt', '', {
-    httpOnly: true,
-    expires: new Date(0),
-  });
-  res.status(STATUS_CODES.OK).json({ message: 'Logged out successfully' });
-};
-
 // @desc    Get user profile
 // @route   GET /api/users/profile
 // @access  Private
@@ -62,4 +51,4 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 });
 
-export { registerUser, logoutUser, getUserProfile, updateUserProfile };
+export { registerUser, getUserProfile, updateUserProfile };
