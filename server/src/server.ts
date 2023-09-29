@@ -12,7 +12,7 @@ dotenv.config();
 
 const port = process.env.PORT || 5000;
 
-connectDB();
+
 
 export const app = express();
 
@@ -38,12 +38,15 @@ app.use('/api/users', userRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-https.createServer(
-    {
-        key: fs.readFileSync("./src/assets/key.pem"),
-        cert: fs.readFileSync("./src/assets/cert.pem"),
-    },
-    app)
-    .listen(port, () => {
-        console.log(`serever is runing at port ${port}`);
-    });
+
+connectDB().then(()=>{
+    https.createServer(
+        {
+            key: fs.readFileSync("./src/assets/key.pem"),
+            cert: fs.readFileSync("./src/assets/cert.pem"),
+        },
+        app)
+        .listen(port, () => {
+            console.log(`serever is runing at port ${port}`);
+        });
+})

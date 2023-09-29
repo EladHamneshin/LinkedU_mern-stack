@@ -14,6 +14,10 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     if (error?.details[0].message)
         throw new RequestError(error?.details[0].message, STATUS_CODES.BAD_REQUEST);
 
+    if (req.cookies.jwt) {
+        throw new RequestError('User already logged in', STATUS_CODES.BAD_REQUEST);
+    }
+
     const { email, password } = req.body;
     const user = await authService.authUser(email, password);
 
