@@ -11,8 +11,8 @@ import authValidation from "../utils/validations/authValidations.js";
 // @access  Public
 const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { error } = authValidation(req.body);
-    if (error?.details[0].message)
-        throw new RequestError(error?.details[0].message, STATUS_CODES.BAD_REQUEST);
+    if (error)
+        throw new RequestError(error.message, STATUS_CODES.BAD_REQUEST);
 
     if (req.cookies.jwt) {
         throw new RequestError('User already logged in', STATUS_CODES.BAD_REQUEST);

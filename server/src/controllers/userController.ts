@@ -12,8 +12,8 @@ import userValidation from "../utils/validations/userValidation.js";
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
 
   const { error } = userValidation(req.body);
-  if (error?.details[0].message)
-    throw new RequestError(error?.details[0].message, STATUS_CODES.BAD_REQUEST);
+  if (error)
+    throw new RequestError(error.message, STATUS_CODES.BAD_REQUEST);
 
   const user = await userService.addUser(req.body);
 

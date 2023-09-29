@@ -3,19 +3,29 @@ import User from "../../types/User.js";
 
 const userValidation = (user: User) => {
   const schema = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string().required()
+    .messages({
+      'string.empty': `user "name" cannot be an empty field`,
+      'any.required': `user "name" is a required field`,
+    }),
     email: Joi.string()
       .email()
-      .required(),
+      .required()
+      .messages({
+        'string.empty': `user "email" cannot be an empty field`,
+        'string.email': 'user "email" must be a valid email',
+        'any.required': `user "email" is a required field`,
+      }),
     password: Joi.string()
-      .ruleset.regex(
+      .required()
+      .pattern(
         /((?=.*\d{1})(?=.*[A-Z]{1})(?=.*[a-z]{1})(?=.*[!@#$%^&*-]{1}).{7,20})/
       )
-      .rule({
-        message:
-          'user "password" must be at least nine characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&*-',
-      })
-      .required(),
+      .messages({
+        'string.empty': `user "password" cannot be an empty field`,
+        'any.required': `user "password" is a required field`,
+        'string.pattern.base': `user "password" must be between 7 and 20 characters, contain at least one numeric digit, one uppercase and one lowercase letter, and one special character`,
+            }),
   });
   return schema.validate(user);
 };
