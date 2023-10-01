@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import {Error as mongooseError} from 'mongoose';
 import STATUS_CODES from '../utils/StatusCodes.js';
-import RequestError from '../utils/RequestError.js';
+import RequestError from '../types/errors/RequestError.js';
 
 
 const notFound = (req: Request, res: Response, next: NextFunction) => {

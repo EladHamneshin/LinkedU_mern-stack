@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import STATUS_CODES from "../utils/StatusCodes.js";
-import RequestError from "../utils/RequestError.js";
+import RequestError from "../types/errors/RequestError.js";
 import generateToken from "../utils/generateToken.js";
 import * as authService from "../services/authService.js";
 import authValidation from "../utils/validations/authValidations.js";

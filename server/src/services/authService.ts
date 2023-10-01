@@ -1,5 +1,5 @@
 import UserModel from "../models/userModel.js";
-import RequestError from "../utils/RequestError.js";
+import RequestError from "../types/errors/RequestError.js";
 import STATUS_CODES from "../utils/StatusCodes.js";
 import { comparePassword } from '../utils/encryptPassword.js';
 

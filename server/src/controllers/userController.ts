@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import STATUS_CODES from "../utils/StatusCodes.js";
-import RequestError from "../utils/RequestError.js";
+import RequestError from "../types/errors/RequestError.js";
 import * as userService from "../services/userService.js";
 import userValidation from "../utils/validations/userValidation.js";
 
