@@ -42,8 +42,8 @@ app.use(errorHandler);
 connectDB().then(()=>{
     https.createServer(
         {
-            key: fs.readFileSync("./src/assets/key.pem"),
-            cert: fs.readFileSync("./src/assets/cert.pem"),
+            key: fs.readFileSync("./src/certs/key.pem"),
+            cert: fs.readFileSync("./src/certs/cert.pem"),
         },
         app)
         .listen(port, () => {
