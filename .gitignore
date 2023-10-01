@@ -2,6 +2,7 @@
 **/.env
 **/dist
 **/*.local
+**/certs
 
 # Editor directories and files
 .vscode/*
