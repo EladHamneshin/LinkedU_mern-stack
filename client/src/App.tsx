@@ -1,9 +1,13 @@
 import './App.css'
+import Button from '@mui/material/Button';
 
 function App() {
 
-  return (
-    <div>LinkedU</div>
+  return (<>
+    <Button variant="contained">Hello World</Button>
+
+  </>
+
   )
 }
 
