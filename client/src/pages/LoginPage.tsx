@@ -24,7 +24,7 @@ export default function LoginPage() {
   };
 
   return (
-      <Container component="main" maxWidth="xs">
+<Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Register"}
                 </Link>
               </Grid>
