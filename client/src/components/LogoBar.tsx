@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import FlexCenter from "./FlexCenter";
 import Logo from "./Logo";
 
+
 const LogoBar = () => {
     return (
         <FlexCenter
@@ -10,10 +11,10 @@ const LogoBar = () => {
         style={{ backgroundColor: "#F5FFFA" }}
         textAlign="center"
       >
-        <Typography fontWeight="bold" fontSize="32px" color="#0e98da">
+        <Typography fontWeight="bold" fontSize="32px" color="#1E90FF">
           Linked
         </Typography>
-        <Logo width={40} height={40}/>
+        <Logo width={35} height={35}/>
       </FlexCenter>
     );
 };

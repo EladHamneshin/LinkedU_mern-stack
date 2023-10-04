@@ -1,4 +1,4 @@
-import {FormEvent, useEffect, } from 'react';
+import {FormEvent } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,11 +13,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../components/Copyright';
 import { useRegisterMutation } from '../api/usersApiSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import AuthState from '../types/AuthState';
 import { setCredentials } from '../slices/authSlice';
-import { toast } from 'react-toastify';
+import LogoBar from '../components/LogoBar';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react';
+import { handleResError } from '../utils/errorHandler';
+
 
 
 
@@ -28,14 +30,15 @@ export default function Register() {
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
-  const { userInfo } = useSelector<any ,AuthState>((state) => state.auth);
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate('/');
-    }
-  }, [navigate, userInfo]);
+  //const { userInfo } = useSelector<any ,AuthState>((state) => state.auth);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate('/');
+  //   }
+  // }, [navigate, userInfo]);
 
+  //todo add validation for email and password on blur
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -48,18 +51,13 @@ export default function Register() {
       dispatch(setCredentials({ ...res }));
       navigate('/');
     } catch (err) {
-      toast.error("Error");
-      //toast.error(err.data?.message || err.error);
+      handleResError(err as FetchBaseQueryError);
     }
-
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   return (
       <Container component="main" maxWidth="xs">
+        <LogoBar/>
         <CssBaseline />
         <Box
           sx={{
@@ -100,6 +98,14 @@ export default function Register() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  //when out of focus check if email is valid and if not show error
+                  onBlur={(e) => {
+                    const email = e.target.value;
+                    if (!email.includes('@')) {
+                      e.target.value = '';
+                      e.target.setCustomValidity('Email is not valid');
+                    }
+                  }}
                   required
                   fullWidth
                   id="email"
@@ -134,6 +140,9 @@ export default function Register() {
             >
              Register
             </Button>
+
+            {isLoading && <p>Loading...</p>}
+
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">
