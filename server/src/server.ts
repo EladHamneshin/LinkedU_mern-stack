@@ -27,12 +27,15 @@ const port = process.env.PORT || 5000;
 
 await connectDB()
 
-https.createServer(
-    {
-        key: fs.readFileSync("./src/certs/key.pem"),
-        cert: fs.readFileSync("./src/certs/cert.pem"),
-    }, app)
-    .listen(port, () => {
-        console.log(`serever is runing at port ${port}`);
-});
+// https.createServer(
+//     {
+//         key: fs.readFileSync("./src/certs/key.pem"),
+//         cert: fs.readFileSync("./src/certs/cert.pem"),
+//     }, app)
+//     .listen(port, () => {
+//         console.log(`server is runing at port ${port}`);
+// });
 
+app.listen(port, () => {
+    console.log(`server is runing at port ${port}`);
+});
