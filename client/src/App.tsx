@@ -1,14 +1,17 @@
+import { ToastContainer } from 'react-toastify'
 import './App.css'
-import { BrowserRouter } from 'react-router-dom';
-import Router from './routes/Router';
+import { Outlet } from 'react-router-dom'
+import { Box } from '@mui/material'
+
 
 
 function App() {
 
   return (
-    <BrowserRouter>
-        <Router />
-    </BrowserRouter>  
+    <Box>
+    <ToastContainer />
+    <Outlet />
+    </Box>
   )
 }
 

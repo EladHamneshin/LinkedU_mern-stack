@@ -6,9 +6,11 @@ const handleResError = (error: FetchBaseQueryError) => {
         const data = error.data as { message: string };
         toast.error(data.message);
     }
-
-    if(error.status === 'FETCH_ERROR' || error.status === 'TIMEOUT_ERROR' || error.status === 'CUSTOM_ERROR') {
-    toast.error(error.error);
+    else if(error.status === 'FETCH_ERROR' || error.status === 'TIMEOUT_ERROR' || error.status === 'CUSTOM_ERROR') {
+        toast.error(error.error);
+    }
+    else{
+        toast.error("Something went wrong");
     }
 }
 

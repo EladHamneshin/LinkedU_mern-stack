@@ -19,6 +19,7 @@ import { setCredentials } from '../slices/authSlice';
 import LogoBar from '../components/LogoBar';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react';
 import { handleResError } from '../utils/errorHandler';
+import 'react-toastify/dist/ReactToastify.css'
 
 
 
