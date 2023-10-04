@@ -7,11 +7,13 @@ import { connectDB } from './configs/db.js';
 import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
+import cors from 'cors';
 
 export const app = express();
 
 // APP CONFIGS
 dotenv.config();
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
