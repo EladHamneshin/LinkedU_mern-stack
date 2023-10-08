@@ -25,8 +25,6 @@ import ROUTES from '../routes/routesModel';
 
 
 export default function LoginPage() {
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
