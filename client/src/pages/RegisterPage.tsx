@@ -14,8 +14,7 @@ import Container from '@mui/material/Container';
 import Copyright from '../components/Copyright';
 import { useRegisterMutation } from '../api/usersApiSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { setCredentials } from '../slices/authSlice';
+import {useNavigate } from 'react-router-dom';
 import LogoBar from '../components/LogoBar';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react';
 import { handleResError } from '../utils/errorHandler';
@@ -23,6 +22,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { setEmailError, setPasswordError } from '../slices/registerSlice';
 import RegisterState from '../types/states/ReisterStae';
 import { isValidEmail, isValidPassword } from '../utils/validators';
+import ROUTES from '../routes/routesModel';
 
 
 export default function Register() {
@@ -40,34 +40,33 @@ export default function Register() {
     const password = data.get('password');
 
     try {
-      const res = await register({ name, email, password }).unwrap();
-      dispatch(setCredentials({ ...res }));
-      navigate('/');
+      await register({ name, email, password }).unwrap();
+      navigate(ROUTES.LOGIN);
     } catch (err) {
       handleResError(err as FetchBaseQueryError);
     }
   };
 
-  const handleEmailBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (!isValidEmail(e.target.value)) {
+  const handleEmailBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (!isValidEmail(event.target.value)) {
       dispatch(setEmailError(true));
     }
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isValidEmail(e.target.value)) {
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isValidEmail(event.target.value)) {
       dispatch(setEmailError(false));
     }
   }
 
-  const handlePasswordBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (!isValidPassword(e.target.value)) {
+  const handlePasswordBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (!isValidPassword(event.target.value)) {
       dispatch(setPasswordError(true));
     }
   }
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isValidPassword(e.target.value)) {
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (isValidPassword(event.target.value)) {
       dispatch(setPasswordError(false));
     }
   }
@@ -163,7 +162,7 @@ export default function Register() {
 
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link href={ROUTES.LOGIN} variant="body2">
                   Already have an account? Login
                 </Link>
               </Grid>

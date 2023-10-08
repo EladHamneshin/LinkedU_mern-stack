@@ -13,15 +13,46 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../components/Copyright';
 import LogoBar from '../components/LogoBar';
+import 'react-toastify/dist/ReactToastify.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../api/usersApiSlice';
+import AuthState from '../types/states/AuthState';
+import { setCredentials } from '../slices/authSlice';
+import { handleResError } from '../utils/errorHandler';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import ROUTES from '../routes/routesModel';
+
 
 export default function LoginPage() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useSelector<any, AuthState>((state) => state.auth);
+
+  React.useEffect(() => {
+    if (userInfo) {
+      navigate(ROUTES.HOME);
+    }
+  }, [navigate, userInfo]);
+
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = data.get('email');
+    const password = data.get('password')
+
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(ROUTES.HOME);
+    } catch (err) {
+      handleResError(err as FetchBaseQueryError);    }
   };
 
   return (
@@ -76,6 +107,9 @@ export default function LoginPage() {
               >
                 Login
               </Button>
+
+              {isLoading && <p>Loading...</p>}
+
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -83,7 +117,7 @@ export default function LoginPage() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
+                  <Link href={ROUTES.REGISTER} variant="body2">
                     {"Don't have an account? Register"}
                   </Link>
                 </Grid>
