@@ -1,4 +1,4 @@
-import {FormEvent } from 'react';
+import React, {FormEvent } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,33 +13,25 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from '../components/Copyright';
 import { useRegisterMutation } from '../api/usersApiSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setCredentials } from '../slices/authSlice';
 import LogoBar from '../components/LogoBar';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react';
 import { handleResError } from '../utils/errorHandler';
 import 'react-toastify/dist/ReactToastify.css'
-
-
+import { setEmailError, setPasswordError } from '../slices/registerSlice';
+import RegisterState from '../types/states/ReisterStae';
+import { isValidEmail, isValidPassword } from '../utils/validators';
 
 
 export default function Register() {
-
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
+  const {isEmailValid, isPasswordValid} = useSelector<any, RegisterState>((state) => state.register);
 
-  //const { userInfo } = useSelector<any ,AuthState>((state) => state.auth);
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate('/');
-  //   }
-  // }, [navigate, userInfo]);
-
-  //todo add validation for email and password on blur
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -55,6 +47,30 @@ export default function Register() {
       handleResError(err as FetchBaseQueryError);
     }
   };
+
+  const handleEmailBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (!isValidEmail(e.target.value)) {
+      dispatch(setEmailError(true));
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isValidEmail(e.target.value)) {
+      dispatch(setEmailError(false));
+    }
+  }
+
+  const handlePasswordBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (!isValidPassword(e.target.value)) {
+      dispatch(setPasswordError(true));
+    }
+  }
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isValidPassword(e.target.value)) {
+      dispatch(setPasswordError(false));
+    }
+  }
 
   return (
       <Container component="main" maxWidth="xs">
@@ -99,16 +115,12 @@ export default function Register() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  //when out of focus check if email is valid and if not show error
-                  onBlur={(e) => {
-                    const email = e.target.value;
-                    if (!email.includes('@')) {
-                      e.target.value = '';
-                      e.target.setCustomValidity('Email is not valid');
-                    }
-                  }}
+                  onBlur={handleEmailBlur}
+                  onChange={handleEmailChange}
                   required
                   fullWidth
+                  error={isEmailValid}
+                  helperText={isEmailValid ? 'Email must be a valid email address' : ''}
                   id="email"
                   label="Email Address"
                   name="email"
@@ -117,8 +129,12 @@ export default function Register() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  onBlur={handlePasswordBlur}
+                  onChange={handlePasswordChange}
                   required
                   fullWidth
+                  error={isPasswordValid}
+                  helperText={isPasswordValid ? 'Password must be at least 7 characters long, contain at least one uppercase letter, one lowercase letter, one number and one special character' : ''}
                   name="password"
                   label="Password"
                   type="password"
@@ -134,6 +150,7 @@ export default function Register() {
               </Grid>
             </Grid>
             <Button
+              disabled={isLoading}
               type="submit"
               fullWidth
               variant="contained"

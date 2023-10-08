@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import AuthState from '../types/AuthState.js';
+import AuthState from '../types/states/AuthState.js';
 
 const initialState: AuthState = {
    userInfo: localStorage.getItem('userInfo')
