@@ -30,7 +30,7 @@ export default function LoginPage() {
 
   const [login, { isLoading }] = useLoginMutation();
 
-  const { userInfo } = useSelector<any, AuthState>((state) => state.auth);
+  const userInfo = useSelector<any, AuthState>((state) => state.auth.userInfo);
 
   React.useEffect(() => {
     if (userInfo) {
