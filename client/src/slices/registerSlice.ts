@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import RegisterState from '../types/states/ReisterStae';
 
 const initialState: RegisterState = {
-  isEmailValid: false,
-  isPasswordValid: false,
-  isFnameValid: false,
-  isLnameValid: false,
+  isEmailError: false,
+  isPasswordError: false,
+  isFnameError: false,
+  isLnameError: false,
 };
 
 export const registerSlice = createSlice({
@@ -13,16 +13,16 @@ export const registerSlice = createSlice({
   initialState,
   reducers: {
     setEmailError: (state, action: PayloadAction<boolean>) => {
-      state.isEmailValid = action.payload;
+      state.isEmailError = action.payload;
     },
     setPasswordError: (state, action: PayloadAction<boolean>) => {
-      state.isPasswordValid = action.payload;
+      state.isPasswordError = action.payload;
     },
     setFnameError:(state, action: PayloadAction<boolean>) => {
-      state.isFnameValid = action.payload;
+      state.isFnameError = action.payload;
     },
     setLnameError:(state, action: PayloadAction<boolean>) => {
-      state.isLnameValid = action.payload;
+      state.isLnameError = action.payload;
     },
   },
 });

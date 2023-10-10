@@ -21,7 +21,7 @@ import { handleResError, handleValidationError } from '../utils/errorHandler';
 import 'react-toastify/dist/ReactToastify.css'
 import { setEmailError, setPasswordError, setFnameError, setLnameError } from '../slices/registerSlice';
 import RegisterState from '../types/states/ReisterStae';
-import { isValidEmail, isValidPassword } from '../utils/validators';
+import { isValidEmail, isValidPassword, isValidName } from '../utils/validators';
 import ROUTES from '../routes/routesModel';
 
 
@@ -30,35 +30,37 @@ export default function Register() {
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
-  const {isEmailValid, isPasswordValid, isFnameValid, isLnameValid} = useSelector<any, RegisterState>((state) => state.register);
+  const {isEmailError, isPasswordError, isFnameError, isLnameError} = useSelector<any, RegisterState>((state) => state.register);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    if(!isEmailValid){
-      handleValidationError("Email must be a valid email")
-      return
-    }
-      
-    if(!isPasswordValid){
-      handleValidationError("Password must be a valid password")
-      return
-    }
 
-    if(!isFnameValid){
+    const data = new FormData(event.currentTarget);
+    const fname = data.get('firstName') || '';
+    const lname = data.get('lastName') || '';
+    const name =  fname + ' ' + lname;
+    const email = data.get('email') || '';
+    const password = data.get('password') || '';
+
+    if(!isValidName(fname.toString())){
       handleValidationError("First name must be valid")
       return
     }
 
-    if(!isLnameValid){
+    if(!isValidName(lname.toString())){
       handleValidationError("Last name must be valid")
       return
     }
-
-    const data = new FormData(event.currentTarget);
-    const name = data.get('firstName') + ' ' + data.get('lastName');
-    const email = data.get('email');
-    const password = data.get('password');
+    
+    if(!isValidEmail(email.toString())){
+      handleValidationError("Email must be a valid email")
+      return
+    }
+      
+    if(!isValidPassword(password.toString())){
+      handleValidationError("Password must be a valid password")
+      return
+    }
 
     try {
       await register({ name, email, password }).unwrap();
@@ -93,25 +95,25 @@ export default function Register() {
   }
 
   const handleFnameBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (event.target.value === '') {
+    if (!isValidName(event.target.value)) {
       dispatch(setFnameError(true));
     }
   }
 
   const handleFnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value !== '') {
+    if (isValidName(event.target.value)) {
       dispatch(setFnameError(false));
     }
   }
 
   const handleLnameBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (event.target.value === '') {
+    if (!isValidName(event.target.value)) {
       dispatch(setLnameError(true));
     }
   }
 
   const handleLnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value !== '') {
+    if (isValidName(event.target.value)){
       dispatch(setLnameError(false));
     }
   }
@@ -146,8 +148,8 @@ export default function Register() {
                   onChange={handleFnameChange}
                   required
                   fullWidth
-                  error={isFnameValid}
-                  helperText={isFnameValid ? 'First name is required' : ''}
+                  error={isFnameError}
+                  helperText={isFnameError ? 'First name is required' : ''}
                   id="firstName"
                   label="First Name"
                   autoFocus
@@ -159,8 +161,8 @@ export default function Register() {
                   onChange={handleLnameChange}
                   required
                   fullWidth
-                  error={isLnameValid}
-                  helperText={isLnameValid ? 'Last name is required' : ''}
+                  error={isLnameError}
+                  helperText={isLnameError ? 'Last name is required' : ''}
                   id="lastName"
                   label="Last Name"
                   name="lastName"
@@ -173,8 +175,8 @@ export default function Register() {
                   onChange={handleEmailChange}
                   required
                   fullWidth
-                  error={isEmailValid}
-                  helperText={isEmailValid ? 'Email must be a valid email address' : ''}
+                  error={isEmailError}
+                  helperText={isEmailError ? 'Email must be a valid email address' : ''}
                   id="email"
                   label="Email Address"
                   name="email"
@@ -187,8 +189,8 @@ export default function Register() {
                   onChange={handlePasswordChange}
                   required
                   fullWidth
-                  error={isPasswordValid}
-                  helperText={isPasswordValid ? 'Password must be at least 7 characters long, contain at least one uppercase letter, one lowercase letter, one number and one special character' : ''}
+                  error={isPasswordError}
+                  helperText={isPasswordError ? 'Password must be at least 7 characters long, contain at least one uppercase letter, one lowercase letter, one number and one special character' : ''}
                   name="password"
                   label="Password"
                   type="password"

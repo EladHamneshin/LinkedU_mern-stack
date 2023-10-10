@@ -1,8 +1,8 @@
 interface RegisterState {
-    isEmailValid: boolean;
-    isPasswordValid: boolean;
-    isFnameValid: boolean,
-    isLnameValid: boolean
+    isEmailError: boolean;
+    isPasswordError: boolean;
+    isFnameError: boolean,
+    isLnameError: boolean
 }
   
 export default RegisterState;
