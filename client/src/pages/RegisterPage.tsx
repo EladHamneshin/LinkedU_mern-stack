@@ -17,9 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {useNavigate } from 'react-router-dom';
 import LogoBar from '../components/LogoBar';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/react';
-import { handleResError } from '../utils/errorHandler';
+import { handleResError, handleValidationError } from '../utils/errorHandler';
 import 'react-toastify/dist/ReactToastify.css'
-import { setEmailError, setPasswordError } from '../slices/registerSlice';
+import { setEmailError, setPasswordError, setFnameError, setLnameError } from '../slices/registerSlice';
 import RegisterState from '../types/states/ReisterStae';
 import { isValidEmail, isValidPassword } from '../utils/validators';
 import ROUTES from '../routes/routesModel';
@@ -30,10 +30,31 @@ export default function Register() {
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
-  const {isEmailValid, isPasswordValid} = useSelector<any, RegisterState>((state) => state.register);
+  const {isEmailValid, isPasswordValid, isFnameValid, isLnameValid} = useSelector<any, RegisterState>((state) => state.register);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
+    if(!isEmailValid){
+      handleValidationError("Email must be a valid email")
+      return
+    }
+      
+    if(!isPasswordValid){
+      handleValidationError("Password must be a valid password")
+      return
+    }
+
+    if(!isFnameValid){
+      handleValidationError("First name must be valid")
+      return
+    }
+
+    if(!isLnameValid){
+      handleValidationError("Last name must be valid")
+      return
+    }
+
     const data = new FormData(event.currentTarget);
     const name = data.get('firstName') + ' ' + data.get('lastName');
     const email = data.get('email');
@@ -71,6 +92,32 @@ export default function Register() {
     }
   }
 
+  const handleFnameBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      dispatch(setFnameError(true));
+    }
+  }
+
+  const handleFnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value !== '') {
+      dispatch(setFnameError(false));
+    }
+  }
+
+  const handleLnameBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      dispatch(setLnameError(true));
+    }
+  }
+
+  const handleLnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value !== '') {
+      dispatch(setLnameError(false));
+    }
+  }
+
+
+
   return (
       <Container component="main" maxWidth="xs">
         <LogoBar/>
@@ -95,8 +142,12 @@ export default function Register() {
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
+                  onBlur={handleFnameBlur}
+                  onChange={handleFnameChange}
                   required
                   fullWidth
+                  error={isFnameValid}
+                  helperText={isFnameValid ? 'First name is required' : ''}
                   id="firstName"
                   label="First Name"
                   autoFocus
@@ -104,8 +155,12 @@ export default function Register() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  onBlur={handleLnameBlur}
+                  onChange={handleLnameChange}
                   required
                   fullWidth
+                  error={isLnameValid}
+                  helperText={isLnameValid ? 'Last name is required' : ''}
                   id="lastName"
                   label="Last Name"
                   name="lastName"

@@ -14,4 +14,8 @@ const handleResError = (error: FetchBaseQueryError) => {
     }
 }
 
-export { handleResError}
+const handleValidationError = (msg: string) => {
+    toast.error(msg);
+}
+
+export { handleResError, handleValidationError }

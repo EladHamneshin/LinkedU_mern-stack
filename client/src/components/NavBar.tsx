@@ -1,31 +1,31 @@
-import { useState } from "react";
+// import { useState } from "react";
 import {
-  Box,
-  IconButton,
-  InputBase,
-  Typography,
-  Select,
-  MenuItem,
-  FormControl,
+  // Box,
+  // IconButton,
+  // InputBase,
+  // Typography,
+  // Select,
+  // MenuItem,
+  // FormControl,
   useTheme,
-  useMediaQuery,
+  // useMediaQuery,
 } from "@mui/material";
-import {
-  Search,
-  Message,
-  DarkMode,
-  LightMode,
-  Notifications,
-  Help,
-  Menu,
-  Close,
-  Logout
-} from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
-import { setMode, removeCerdentials } from "../slices/authSlice";
-import { useNavigate } from "react-router-dom";
+// import {
+//   Search,
+//   Message,
+//   DarkMode,
+//   LightMode,
+//   Notifications,
+//   Help,
+//   Menu,
+//   Close,
+//   Logout
+// } from "@mui/icons-material";
+// import { useDispatch, useSelector } from "react-redux";
+// import { setMode, removeCerdentials } from "../slices/authSlice";
+// import { useNavigate } from "react-router-dom";
 import FlexBetween from "../components/FlexBetween";
-import AuthState from "../types/states/AuthState";
+// import AuthState from "../types/states/AuthState";
 
 const Navbar = () => {
     // const dispatch = useDispatch();
@@ -38,9 +38,10 @@ const Navbar = () => {
     
 
     return (
-        <div style={{backgroundColor:neutralLight, height:100, width:100}}>
-
-        </div>
+      <FlexBetween padding="1rem 6%" bgcolor={neutralLight}>
+        <div>Logo</div>
+        <div>Menu</div>
+      </FlexBetween>
     )
   
    
